@@ -5,7 +5,7 @@ const byte HOLD = 48;
 const byte CS = 53;
 
 //MX25L4005A-12G
-const int capacity = 4096; // in bytes -> 4MB (512KB) // 0x000000 - 0x07F000
+const long capacity = 524288; // in bytes -> 4MB (512KB) // 0x000000 - 0x07FFFF
 
 const byte WREN = 0x06;   // Write enable
 const byte WRDI = 0x04;   // Write disable
@@ -118,22 +118,39 @@ byte readData(byte add){
  return data;
 }
 
-void readData(byte add, int lastAdd){
- int i;
+byte* readData(long add, long lastAdd){ // if lastAdd < 0, the whole memory will be readed
+ long i;
  byte* data;
 
+ if(lastAdd >= capacity){
+  lastAdd = capacity - 1; 
+ }else if(lastAdd < add){
+  lastAdd = add; 
+ }else if(lastAdd < 0){
+  lastAdd = capacity - 1; 
+ }
+
+ if(add >= capacity){
+  add = capacity - 1;
+ }else if(add < 1){
+  add = 0; 
+ }
+ 
  digitalWrite(CS, LOW);
 
  SPI.transfer(READ);
  SPI.transfer(add);
  
-// while(){
-//  
-// }
+ i = add;
+ 
+ while( i <= lastAdd ){
+  data[i] = SPI.transfer(0x00);
+  i+=1;
+ }
 
  digitalWrite(CS, HIGH);
 
-// return null;
+ return data;
 }
 
 void setup() {
