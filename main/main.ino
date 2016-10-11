@@ -98,60 +98,101 @@ boolean writeStatusRegister(byte statusRegister){
     return false;
   }
 }
-
-byte readData(byte add){
- byte data;
-
- digitalWrite(CS, LOW);
- 
- SPI.transfer(READ);
- SPI.transfer(add);
- data = SPI.transfer(0x00);
- 
- digitalWrite(CS, LOW);
-
- Serial.print("Data in ");
- Serial.print(add, HEX);
- Serial.print(" addres memory:\t");
- Serial.println(data, HEX);
-
- return data;
-}
-
-byte* readData(long add, long lastAdd){ // if lastAdd < 0, the whole memory will be readed
- long i;
- byte* data;
-
- if(lastAdd >= capacity){
-  lastAdd = capacity - 1; 
- }else if(lastAdd < add){
-  lastAdd = add; 
- }else if(lastAdd < 0){
-  lastAdd = capacity - 1; 
- }
-
- if(add >= capacity){
-  add = capacity - 1;
- }else if(add < 1){
-  add = 0; 
- }
- 
- digitalWrite(CS, LOW);
-
- SPI.transfer(READ);
- SPI.transfer(add);
- 
- i = add;
- 
- while( i <= lastAdd ){
-  data[i] = SPI.transfer(0x00);
-  i+=1;
- }
-
- digitalWrite(CS, HIGH);
-
- return data;
-}
+//
+//byte readData(byte add){
+// byte data;
+//
+// digitalWrite(CS, LOW);
+// 
+// SPI.transfer(READ);
+// SPI.transfer(add);
+// data = SPI.transfer(0x00);
+// 
+// digitalWrite(CS, LOW);
+//
+// Serial.print("Data in ");
+// Serial.print(add, HEX);
+// Serial.print(" addres memory:\t");
+// Serial.println(data, HEX);
+//
+// return data;
+//}
+//
+//byte* readData(long* add, byte* lastAdd){ // if lastAdd < 0, the whole memory will be readed
+// long i;
+// byte* data;
+//
+//// if(lastAdd >= capacity){
+////  lastAdd = capacity - 1; 
+//// }else if(lastAdd < add){
+////  lastAdd = add; 
+//// }else if(lastAdd < 0){
+////  lastAdd = capacity - 1; 
+//// }
+////
+//// if(add >= capacity){
+////  add = capacity - 1;
+//// }else if(add < 1){
+////  add = 0; 
+//// }
+// 
+// digitalWrite(CS, LOW);
+//
+// SPI.transfer(READ);
+// SPI.transfer(add[0]);
+// SPI.transfer(add[1]);
+// SPI.transfer(add[2]);
+// 
+// i = add;
+// 
+// while( i <= lastAdd ){
+//  data[i] = SPI.transfer(0x00);
+//  i+=1;
+// }
+//
+// digitalWrite(CS, HIGH);
+//
+// return data;
+//}
+//
+//byte* fastReadData(){
+//byte* readData(byte* add, byte* lastAdd){ // if lastAdd < 0, the whole memory will be readed
+// long i;
+// byte* data;
+//
+//// if(lastAdd >= capacity){
+////  lastAdd = capacity - 1; 
+//// }else if(lastAdd < add){
+////  lastAdd = add; 
+//// }else if(lastAdd < 0){
+////  lastAdd = capacity - 1; 
+//// }
+////
+//// if(add >= capacity){
+////  add = capacity - 1;
+//// }else if(add < 1){
+////  add = 0; 
+//// }
+// 
+// digitalWrite(CS, LOW);
+//
+// SPI.transfer(READ);
+// SPI.transfer(add[0]);
+// SPI.transfer(add[1]);
+// SPI.transfer(add[2]);
+// SPI.transfer(0x00);
+// 
+// i = add;
+// 
+// while( i <= lastAdd ){
+//  data[i] = SPI.transfer(0x00);
+//  i+=1;
+// }
+//
+// digitalWrite(CS, HIGH);
+//
+// return data;
+//}
 
 void setup() {
   Serial.begin(9600);
