@@ -5,7 +5,7 @@ const byte HOLD = 48;
 const byte CS = 53;
 
 //MX25L4005A-12G
-//const int capacity = 4194304; // in bytes -> 4MB
+const int capacity = 4096; // in bytes -> 4MB (512KB) // 0x000000 - 0x07F000
 
 const byte WREN = 0x06;   // Write enable
 const byte WRDI = 0x04;   // Write disable
@@ -71,20 +71,20 @@ byte readStatusRegister(){
   digitalWrite(CS, LOW);
 
   SPI.transfer(RDSR);
-  statusRegister = SPI.trasnfer(0x00);
+  statusRegister = SPI.transfer(0x00);
 
   digitalWrite(CS, HIGH);
 
   Serial.print("Status Register:\t");
   Serial.println(statusRegister);
   
-  return statusRegister
+  return statusRegister;
 }
 
 boolean writeStatusRegister(byte statusRegister){
   digitalWrite(CS, LOW);
 
-  SPI.transfer(WDSR);
+  SPI.transfer(WRSR);
   SPI.transfer(statusRegister);
 
   digitalWrite(CS, HIGH);
@@ -92,10 +92,10 @@ boolean writeStatusRegister(byte statusRegister){
   if(readStatusRegister() == statusRegister){
     Serial.print("Writed Status Register:\t");
     Serial.println(statusRegister, BIN);
-    return true
+    return true;
   }else{
     Serial.print("Error not the same Status Register after writing!");
-    return false
+    return false;
   }
 }
 
@@ -112,13 +112,14 @@ byte readData(byte add){
 
  Serial.print("Data in ");
  Serial.print(add, HEX);
- Serial.print(" addres memory:"\t);
+ Serial.print(" addres memory:\t");
  Serial.println(data, HEX);
 
  return data;
 }
 
 void readData(byte add, int lastAdd){
+ int i;
  byte* data;
 
  digitalWrite(CS, LOW);
@@ -132,7 +133,7 @@ void readData(byte add, int lastAdd){
 
  digitalWrite(CS, HIGH);
 
- return null;
+// return null;
 }
 
 void setup() {
