@@ -81,16 +81,59 @@ byte readStatusRegister(){
   return statusRegister
 }
 
-//void readData(byte add){
-//
-// SPI.transfer(READ);
-//
-//}
-//
-//void readData(byte add, int lastAdd){
-// 
-// SPI.transfer(READ);
-//}
+boolean writeStatusRegister(byte statusRegister){
+  digitalWrite(CS, LOW);
+
+  SPI.transfer(WDSR);
+  SPI.transfer(statusRegister);
+
+  digitalWrite(CS, HIGH);
+
+  if(readStatusRegister() == statusRegister){
+    Serial.print("Writed Status Register:\t");
+    Serial.println(statusRegister, BIN);
+    return true
+  }else{
+    Serial.print("Error not the same Status Register after writing!");
+    return false
+  }
+}
+
+byte readData(byte add){
+ byte data;
+
+ digitalWrite(CS, LOW);
+ 
+ SPI.transfer(READ);
+ SPI.transfer(add);
+ data = SPI.transfer(0x00);
+ 
+ digitalWrite(CS, LOW);
+
+ Serial.print("Data in ");
+ Serial.print(add, HEX);
+ Serial.print(" addres memory:"\t);
+ Serial.println(data, HEX);
+
+ return data;
+}
+
+void readData(byte add, int lastAdd){
+ byte* data;
+
+ digitalWrite(CS, LOW);
+
+ SPI.transfer(READ);
+ SPI.transfer(add);
+ 
+// while(){
+//  
+// }
+
+ digitalWrite(CS, HIGH);
+
+ return null;
+}
 
 void setup() {
   Serial.begin(9600);
