@@ -98,7 +98,8 @@ boolean writeStatusRegister(byte statusRegister){
     return false;
   }
 }
-//
+//////// TODO: parametros de memoria de 24 bits
+
 //byte readData(byte add){
 // byte data;
 //
