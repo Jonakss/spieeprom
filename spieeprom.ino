@@ -30,7 +30,7 @@ void writeEnable(){
 
   digitalWrite(CS, HIGH);
 
-  Serial.println("Write protection enabled");
+//  Serial.println("Write protection enabled");
 }
 
 void writeDisable(){
@@ -40,7 +40,7 @@ void writeDisable(){
 
   digitalWrite(CS, HIGH);
 
-  Serial.println("Write protection disabled");
+//  Serial.println("Write protection disabled");
 }
 
 int readIdentification(){
@@ -65,8 +65,8 @@ int readIdentification(){
   Serial.println();
 }
 
-char readStatusRegister(){
-  char statusRegister;
+byte readStatusRegister(){
+  byte statusRegister;
 
   digitalWrite(CS, LOW);
 
@@ -75,8 +75,8 @@ char readStatusRegister(){
 
   digitalWrite(CS, HIGH);
 
-  Serial.print("Status Register:\t");
-  Serial.println(statusRegister);
+//  Serial.print("Status Register:\t");
+//  Serial.println(statusRegister, BIN);
 
   return statusRegister;
 }
@@ -90,8 +90,8 @@ boolean writeStatusRegister(char statusRegister){
   digitalWrite(CS, HIGH);
 
   if(readStatusRegister() == statusRegister){
-    Serial.print("Writed Status Register:\t");
-    Serial.println(statusRegister, BIN);
+//    Serial.print("Writed Status Register:\t");
+//    Serial.println(statusRegister, BIN);
     return true;
   }else{
     Serial.print("Error not the same Status Register after writing!");
@@ -99,8 +99,8 @@ boolean writeStatusRegister(char statusRegister){
   }
 }
 
-char readData(long add){
-char data;
+byte readData(long add){
+byte data;
 
 digitalWrite(CS, LOW);
 
@@ -133,7 +133,7 @@ if(add >= capacity){
 }
 
 long delta = lastAdd-add;
-//char data[delta];
+//byte data[delta];
 
 digitalWrite(CS, LOW);
 
@@ -166,7 +166,7 @@ if(add >= capacity){
 }
 
 long delta = lastAdd-add;
-//char data[delta];
+//byte data[delta];
 
 digitalWrite(CS, LOW);
 
