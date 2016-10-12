@@ -118,7 +118,7 @@ Serial.print(" addres memory:\t");
 Serial.println(data, HEX);
 
 return data;
-}
+} // End readData
 
 void readData(long add, long lastAdd){ // if lastAdd < 0, the whole memory will be readed
 
@@ -151,7 +151,7 @@ digitalWrite(CS, HIGH);
 
 Serial.println();
 //return data;
-}
+} // End readData 
 
 void fastReadData(long add, long lastAdd){
 
@@ -186,6 +186,61 @@ digitalWrite(CS, HIGH);
 Serial.println();
 
 //return data;
+} // End fastReadData
+
+//// TODO: readSectorData
+//// TODO: readBlockData
+
+void sectorErease(long add){
+  writeEnable();
+  digitalWrite(CS, LOW);
+
+  //TODO: Check the statusRegister for Protected areas
+
+  SPI.transfer(SECTORE);
+  SPI.transfer(add >> 16);
+  SPI.transfer(add >> 8 & 0x00ff);
+  SPI.transfer(add & 0x0000ff);
+
+  //TODO: Check sector after erease
+
+  digitalWrite(CS, HIGH);
+  
+  writeDisable();
+}
+
+void blockErease(long add){
+  writeEnable();
+  
+  digitalWrite(CS, LOW);
+
+  //TODO: Check the statusRegister for Protected areas
+
+  SPI.transfer(BE);
+  SPI.transfer(add >> 16);
+  SPI.transfer(add >> 8 & 0x00ff);
+  SPI.transfer(add & 0x0000ff);
+
+  //TODO: Check block after erease
+
+  digitalWrite(CS, HIGH);
+  
+  writeDisable();
+}
+
+void chipErease(){
+  writeEnable();
+  digitalWrite(CS, LOW);
+
+  //TODO: Check the statusRegister for Protected areas
+
+  SPI.transfer(BE);
+
+  //TODO: Check chip after erease
+
+  digitalWrite(CS, HIGH);
+
+  writeDisable();
 }
 
 void setup() {
