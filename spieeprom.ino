@@ -120,7 +120,7 @@ Serial.println(data, HEX);
 return data;
 }
 
-char* readData(long add, long lastAdd){ // if lastAdd < 0, the whole memory will be readed
+void readData(long add, long lastAdd){ // if lastAdd < 0, the whole memory will be readed
 
 if(add >= capacity){
   add = lastAdd = capacity - 1;
@@ -133,7 +133,7 @@ if(add >= capacity){
 }
 
 long delta = lastAdd-add;
-char data[delta];
+//char data[delta];
 
 digitalWrite(CS, LOW);
 
@@ -143,15 +143,17 @@ SPI.transfer(add >> 8 & 0x00ff);
 SPI.transfer(add & 0x0000ff);
 
 for(long i=0; i<=delta; i++){
-  data[i] = SPI.transfer(0x00);
+  //data[i] = SPI.transfer(0x00);
+  Serial.print(SPI.transfer(0x00));
 }
 
 digitalWrite(CS, HIGH);
 
-return data;
+Serial.println();
+//return data;
 }
 
-char* fastReadData(long add, long lastAdd){
+void fastReadData(long add, long lastAdd){
 
 if(add >= capacity){
   add = lastAdd = capacity - 1;
@@ -164,7 +166,7 @@ if(add >= capacity){
 }
 
 long delta = lastAdd-add;
-char data[delta];
+//char data[delta];
 
 digitalWrite(CS, LOW);
 
@@ -175,12 +177,15 @@ SPI.transfer(add & 0x0000ff);
 SPI.transfer(0x00); // Or maybe 0xFF
 
 for(long i=0; i<=delta; i++){
-  data[i] = SPI.transfer(0x00);
+  //data[i] = SPI.transfer(0x00);
+  Serial.print(SPI.transfer(0x00));
 }
 
 digitalWrite(CS, HIGH);
 
-return data;
+Serial.println();
+
+//return data;
 }
 
 void setup() {
